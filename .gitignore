@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Python (por si quedó algo)
+.venv/
