@@ -9,6 +9,7 @@ import { showRanking } from './ranking/ranking.js';
 import { showProfile } from './profile/profile.js';
 import { showLogin } from './login/login.js';
 import { showGames } from './games/games.js';
+import { showTeams } from './teams/teams.js';
 
 const app = document.querySelector('#app');
 
@@ -24,6 +25,7 @@ const routes = {
   '/profile': showProfile,
   '/login': showLogin,
   '/games': showGames,
+  '/teams': showTeams,
 };
 
 function parseRoute(hash) {
@@ -35,15 +37,21 @@ function parseRoute(hash) {
   return { route: `/${parts[1]}` || '/login', param: null };
 }
 
-function navigate() {
+async function navigate() {
   const hash = window.location.hash || '#/login';
   const { route, param } = parseRoute(hash);
   const view = routes[route];
   if (view) {
+    const logoutCallback = () => { localStorage.removeItem('loggedIn'); window.location.hash = '#/login'; navigate(); };
+    const showDashboard = () => {};
+    const showPlayersFunc = () => {};
+    const showMatchesFunc = () => {};
     if (param) {
-      view(app, param, () => { localStorage.removeItem('loggedIn'); window.location.hash = '#/login'; navigate(); });
+      await view(app, param, logoutCallback);
+    } else if (route === '/teams') {
+      await view(app, logoutCallback, showDashboard, showPlayersFunc, showMatchesFunc);
     } else {
-      view(app, () => { localStorage.removeItem('loggedIn'); window.location.hash = '#/login'; navigate(); });
+      await view(app, logoutCallback);
     }
   } else {
     showLogin(app, () => { window.location.hash = '#/login'; navigate(); });

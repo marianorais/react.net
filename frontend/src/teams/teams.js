@@ -1,65 +1,38 @@
 import '../style.css';
 import { createNavbar, setupNavbarEvents } from '../navbar.js';
 
-export function showTeams(app, logoutCallback, showDashboard, showPlayers, showMatches) {
+export async function showTeams(app, logoutCallback, showDashboard, showPlayers, showMatches) {
+  // Fetch teams from TheSportsDB API (free, no key required)
+  const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=Spanish%20La%20Liga');
+  const data = await response.json();
+  const teams = data.teams.slice(0, 30); // Limit to 30 teams for display
+
+  const teamsHTML = teams.map(team => `
+    <div class="team-card">
+      <h3>${team.strTeam}</h3>
+      <div class="stats">
+        <div class="stat">
+          <div class="number">${team.intFormedYear || 'N/A'}</div>
+          <div class="label">Año Fundación</div>
+        </div>
+        <div class="stat">
+          <div class="number">${team.strStadium || 'N/A'}</div>
+          <div class="label">Estadio</div>
+        </div>
+        <div class="stat">
+          <div class="number">${team.strWebsite ? 'Sí' : 'No'}</div>
+          <div class="label">Sitio Web</div>
+        </div>
+      </div>
+      <button>Ver Estadísticas</button>
+    </div>
+  `).join('');
+
   app.innerHTML = `
     ${createNavbar()}
     <section class="section">
       <h2>Equipos Destacados</h2>
-      <div class="team-card">
-        <h3>FC Barcelona</h3>
-        <div class="stats">
-          <div class="stat">
-            <div class="number">85</div>
-            <div class="label">Puntos</div>
-          </div>
-          <div class="stat">
-            <div class="number">28</div>
-            <div class="label">Victorias</div>
-          </div>
-          <div class="stat">
-            <div class="number">5</div>
-            <div class="label">Derrotas</div>
-          </div>
-        </div>
-        <button>Ver Estadísticas</button>
-      </div>
-      <div class="team-card">
-        <h3>Real Madrid</h3>
-        <div class="stats">
-          <div class="stat">
-            <div class="number">82</div>
-            <div class="label">Puntos</div>
-          </div>
-          <div class="stat">
-            <div class="number">26</div>
-            <div class="label">Victorias</div>
-          </div>
-          <div class="stat">
-            <div class="number">6</div>
-            <div class="label">Derrotas</div>
-          </div>
-        </div>
-        <button>Ver Estadísticas</button>
-      </div>
-      <div class="team-card">
-        <h3>Atlético Madrid</h3>
-        <div class="stats">
-          <div class="stat">
-            <div class="number">78</div>
-            <div class="label">Puntos</div>
-          </div>
-          <div class="stat">
-            <div class="number">24</div>
-            <div class="label">Victorias</div>
-          </div>
-          <div class="stat">
-            <div class="number">8</div>
-            <div class="label">Derrotas</div>
-          </div>
-        </div>
-        <button>Ver Estadísticas</button>
-      </div>
+      ${teamsHTML}
     </section>
   `;
 

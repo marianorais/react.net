@@ -1,63 +1,38 @@
 import '../style.css';
 import { createNavbar } from '../navbar.js';
 
-export function showPlayers(app, logoutCallback) {
+export async function showPlayers(app, logoutCallback) {
+  // Fetch players from Barcelona using TheSportsDB API (free, no key required)
+  const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/lookup_all_players.php?id=133739');
+  const data = await response.json();
+  const players = data.player.slice(0, 30); // Limit to 30 players for display
+
+  const playersHTML = players.map((player, index) => `
+    <div class="player-card">
+      <h3><a href="#/players/${index + 1}">${player.strPlayer}</a></h3>
+      <div class="stats">
+        <div class="stat">
+          <div class="number">${player.strPosition || 'N/A'}</div>
+          <div class="label">Posición</div>
+        </div>
+        <div class="stat">
+          <div class="number">${player.dateBorn || 'N/A'}</div>
+          <div class="label">Fecha Nacimiento</div>
+        </div>
+        <div class="stat">
+          <div class="number">${player.strNationality || 'N/A'}</div>
+          <div class="label">Nacionalidad</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
   app.innerHTML = `
     ${createNavbar()}
     <section class="section">
       <h2>Lista de Jugadores</h2>
       <div class="player-list">
-        <div class="player-card">
-          <h3><a href="#/players/1">Lionel Messi</a></h3>
-          <div class="stats">
-            <div class="stat">
-              <div class="number">25</div>
-              <div class="label">Goles</div>
-            </div>
-            <div class="stat">
-              <div class="number">15</div>
-              <div class="label">Asistencias</div>
-            </div>
-            <div class="stat">
-              <div class="number">8.5</div>
-              <div class="label">Rating</div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card">
-          <h3><a href="#/players/2">Cristiano Ronaldo</a></h3>
-          <div class="stats">
-            <div class="stat">
-              <div class="number">22</div>
-              <div class="label">Goles</div>
-            </div>
-            <div class="stat">
-              <div class="number">10</div>
-              <div class="label">Asistencias</div>
-            </div>
-            <div class="stat">
-              <div class="number">8.7</div>
-              <div class="label">Rating</div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card">
-          <h3><a href="#/players/3">Kylian Mbappé</a></h3>
-          <div class="stats">
-            <div class="stat">
-              <div class="number">20</div>
-              <div class="label">Goles</div>
-            </div>
-            <div class="stat">
-              <div class="number">12</div>
-              <div class="label">Asistencias</div>
-            </div>
-            <div class="stat">
-              <div class="number">8.8</div>
-              <div class="label">Rating</div>
-            </div>
-          </div>
-        </div>
+        ${playersHTML}
       </div>
     </section>
   `;

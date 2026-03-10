@@ -8,6 +8,7 @@ export function createNavbar() {
       <ul class="navbar-links">
         <li><a href="#/home">Inicio</a></li>
         <li><a href="#/matches">Partidos</a></li>
+        <li><a href="#/teams" id="nav-teams">Equipos</a></li>
         <li><a href="#/players">Jugadores</a></li>
         <li><a href="#/stats">Estadísticas</a></li>
         <li><a href="#/tournaments">Torneos</a></li>
