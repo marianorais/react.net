@@ -1,11 +1,12 @@
+import '../style.css';
+import { createNavbar, setupNavbarEvents } from '../navbar.js';
+import { showTeams } from '../teams/teams.js';
+import { showPlayers } from '../players/players.js';
+import { showMatches } from '../matches/matches.js';
+
 export function showDashboard(app, logoutCallback) {
   app.innerHTML = `
-    <header>
-      <h1>⚽ Fútbol Dashboard</h1>
-      <p>Partidos en vivo y estadísticas de equipos y jugadores</p>
-      <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
-    </header>
-
+    ${createNavbar()}
     <section class="section">
       <h2>Partidos en Vivo</h2>
       <div class="match-card">
@@ -117,8 +118,5 @@ export function showDashboard(app, logoutCallback) {
     </section>
   `;
 
-  const logoutBtn = document.querySelector('#logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', logoutCallback);
-  }
+  setupNavbarEvents(logoutCallback, () => showDashboard(app, logoutCallback), () => showTeams(app, logoutCallback), () => showPlayers(app, logoutCallback), () => showMatches(app, logoutCallback));
 }

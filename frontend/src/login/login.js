@@ -1,15 +1,17 @@
 import '../style.css';
 import viteLogo from '/vite.svg';
-import { showDashboard } from '../dashboard/dashboard.js';
+import { showHome } from '../home/home.js';
+import { createNavbar } from '../navbar.js';
 
 const app = document.querySelector('#app');
 
-function showLogin() {
+export function showLogin(app, logoutCallback = null) {
   app.innerHTML = `
+    ${createNavbar()}
     <div class="login-container">
       <header class="login-header">
         <img src="${viteLogo}" class="logo" alt="Fútbol Logo" />
-        <h1>⚽ Login - Fútbol Dashboard</h1>
+        <h1>⚽ Login - Fútbol YAT</h1>
         <p>Ingresa tus credenciales para acceder al panel de estadísticas</p>
       </header>
       
@@ -27,6 +29,15 @@ function showLogin() {
       </form>
     </div>
   `;
+
+  // Disable navbar links in login
+  const navLinks = document.querySelectorAll('.navbar-links a');
+  navLinks.forEach(link => {
+    if (link.id !== 'nav-logout') {
+      link.style.pointerEvents = 'none';
+      link.style.opacity = '0.5';
+    }
+  });
 
   const loguearse = document.querySelector('#loginForm');
   if (loguearse) {
@@ -50,8 +61,9 @@ function showLogin() {
         if (response.ok && data.success) {
           errorMsg.style.display = 'none';
           console.log('Login exitoso:', data);
-          showDashboard(app, () => showLogin());
-
+          window.location.hash = '#/home';
+          // Trigger navigation
+          window.dispatchEvent(new Event('hashchange'));
         } else {
           errorMsg.textContent = data.message || 'Credenciales inválidas';
           errorMsg.style.display = 'block';
@@ -64,6 +76,3 @@ function showLogin() {
     });
   }
 }
-
-// Inicializar con login
-showLogin();
