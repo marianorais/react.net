@@ -1,4 +1,5 @@
 export function createNavbar() {
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
   return `
     <nav class="navbar">
       <div class="navbar-brand">
@@ -11,9 +12,10 @@ export function createNavbar() {
         <li><a href="#/stats">Estadísticas</a></li>
         <li><a href="#/tournaments">Torneos</a></li>
         <li><a href="#/ranking">Ranking</a></li>
-        <li><a href="#/profile">Mi Perfil</a></li>
+        <li><a href="#/games">Juegos</a></li>
       </ul>
       <ul class="navbar-right">
+        <li><a href="#/profile" ${!isLoggedIn ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>Mi Perfil</a></li>
         <li><a href="#" id="nav-logout">Cerrar Sesión</a></li>
       </ul>
     </nav>

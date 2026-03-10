@@ -8,6 +8,7 @@ import { showTournaments } from './tournaments/tournaments.js';
 import { showRanking } from './ranking/ranking.js';
 import { showProfile } from './profile/profile.js';
 import { showLogin } from './login/login.js';
+import { showGames } from './games/games.js';
 
 const app = document.querySelector('#app');
 
@@ -22,6 +23,7 @@ const routes = {
   '/ranking': showRanking,
   '/profile': showProfile,
   '/login': showLogin,
+  '/games': showGames,
 };
 
 function parseRoute(hash) {
@@ -39,9 +41,9 @@ function navigate() {
   const view = routes[route];
   if (view) {
     if (param) {
-      view(app, param, () => { window.location.hash = '#/login'; navigate(); });
+      view(app, param, () => { localStorage.removeItem('loggedIn'); window.location.hash = '#/login'; navigate(); });
     } else {
-      view(app, () => { window.location.hash = '#/login'; navigate(); });
+      view(app, () => { localStorage.removeItem('loggedIn'); window.location.hash = '#/login'; navigate(); });
     }
   } else {
     showLogin(app, () => { window.location.hash = '#/login'; navigate(); });

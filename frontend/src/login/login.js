@@ -61,6 +61,7 @@ export function showLogin(app, logoutCallback = null) {
         if (response.ok && data.success) {
           errorMsg.style.display = 'none';
           console.log('Login exitoso:', data);
+          localStorage.setItem('loggedIn', 'true');
           window.location.hash = '#/home';
           // Trigger navigation
           window.dispatchEvent(new Event('hashchange'));

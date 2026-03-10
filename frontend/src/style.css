@@ -389,3 +389,33 @@ button:hover {
   background: #4caf50;
   color: white;
 }
+
+/* Games list styles */
+.games-list {
+  list-style: none;
+  padding: 0;
+}
+
+.games-list li {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.games-list li:hover {
+  transform: translateY(-5px);
+}
+
+.games-list li a {
+  color: #ffd700;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.games-list li a:hover {
+  color: #fff;
+}
