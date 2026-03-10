@@ -1,52 +1,69 @@
 import '../style.css';
-import typescriptLogo from '../typescript.svg';
 import viteLogo from '/vite.svg';
-import { setupCounter } from '../counter.ts';   
+import { showDashboard } from '../dashboard/dashboard.js';
 
 const app = document.querySelector('#app');
 
-if (app) {
+function showLogin() {
   app.innerHTML = `
-    <div>
-      <p class="">
-        Login 
-      </p>
-      <a href="https://vite.dev" target="_blank">
-        <img src="${viteLogo}" class="logo" alt="Vite logo" />
-      </a>
-      <h1>Login</h1>
-      <div class="card">
-        <button id="counter" type="button"></button>
-      </div>
+    <div class="login-container">
+      <header class="login-header">
+        <img src="${viteLogo}" class="logo" alt="Fútbol Logo" />
+        <h1>⚽ Login - Fútbol Dashboard</h1>
+        <p>Ingresa tus credenciales para acceder al panel de estadísticas</p>
+      </header>
       
-      <form action="#" id="loginForm">
-        <div class="card">
-            <input id="username" type="text" placeholder="Usuario" required />
-            <input id="password" type="text" placeholder="Contraseña" required />
+      <form action="#" id="loginForm" class="login-form">
+        <div class="input-group">
+          <label for="username">Usuario</label>
+          <input id="username" type="text" placeholder="Ingresa tu usuario" required />
         </div>
-        <div class="card">
-            <button id="login" type="submit">Login</button>
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <input id="password" type="password" placeholder="Ingresa tu contraseña" required />
         </div>
+        <button type="submit" class="login-btn">Iniciar Sesión</button>
+        <div id="error-message" class="error-message"></div>
       </form>
-
-      <p class="read-the-docs">
-        Ejemplo de Login
-      </p>
     </div>
   `;
+
+  const loguearse = document.querySelector('#loginForm');
+  if (loguearse) {
+    loguearse.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.querySelector('#username').value;
+      const password = document.querySelector('#password').value;
+      const errorMsg = document.querySelector('#error-message');
+
+      try {
+        const response = await fetch('http://localhost:5091/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          errorMsg.style.display = 'none';
+          console.log('Login exitoso:', data);
+          showDashboard(app, () => showLogin());
+
+        } else {
+          errorMsg.textContent = data.message || 'Credenciales inválidas';
+          errorMsg.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+        errorMsg.textContent = 'Error al conectar con el servidor';
+        errorMsg.style.display = 'block';
+      }
+    });
+  }
 }
 
-const counterBtn = document.querySelector('#counter');
-if (counterBtn) {
-  setupCounter(counterBtn);
-}
-
-const loguearse = document.querySelector('#loginForm');
-if (loguearse) {
-  loguearse.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.querySelector('#username').value;
-    const password = document.querySelector('#password').value;
-    console.log('Usuario:', username, 'Contraseña:', password);
-  });
-}
+// Inicializar con login
+showLogin();

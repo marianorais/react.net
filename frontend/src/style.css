@@ -94,3 +94,195 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Football theme styles */
+body {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  color: #fff;
+}
+
+#app {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+header h1 {
+  font-size: 3em;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 2em;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.match-card, .team-card, .player-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.match-card:hover, .team-card:hover, .player-card:hover {
+  transform: translateY(-5px);
+}
+
+.match-card h3, .team-card h3, .player-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #ffd700;
+}
+
+button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat .number {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.stat .label {
+  font-size: 0.8em;
+  color: #ccc;
+}
+
+/* Login styles */
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  font-size: 2.5em;
+  margin: 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: #ffd700;
+}
+
+.login-header p {
+  color: #ccc;
+  font-size: 1.1em;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.login-btn {
+  padding: 1rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 1rem;
+}
+
+.login-btn:hover {
+  background: #45a049;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-weight: bold;
+  margin-top: 1rem;
+  display: none;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.logout-btn:hover {
+  background: #d32f2f;
+}
