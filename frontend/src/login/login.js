@@ -48,7 +48,7 @@ export function showLogin(app, logoutCallback = null) {
       const errorMsg = document.querySelector('#error-message');
 
       try {
-        const response = await fetch('http://localhost:5091/api/login', {
+        const response = await fetch('http://localhost:8000/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
