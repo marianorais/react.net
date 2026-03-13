@@ -97,7 +97,7 @@ export async function showTeams(app, logoutCallback, showDashboard, showPlayers,
               <div class="label">País</div>
             </div>
           </div>
-          <button onclick="showTeamDetails(${team.team?.id || team.id})">Ver Estadísticas</button>
+          <button onclick="window.location.hash = '#/teams/${team.team?.id || team.id}'">Ver Estadísticas</button>
         </div>
       `}).join('');
 

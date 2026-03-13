@@ -2,40 +2,56 @@ import '../style.css';
 import { createNavbar } from '../navbar.js';
 
 export async function showPlayers(app, logoutCallback) {
-  // Fetch players from Barcelona using TheSportsDB API (free, no key required)
-  const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/lookup_all_players.php?id=133739');
-  const data = await response.json();
-  const players = data.player.slice(0, 30); // Limit to 30 players for display
-
-  const playersHTML = players.map((player, index) => `
-    <div class="player-card">
-      <h3><a href="#/players/${index + 1}">${player.strPlayer}</a></h3>
-      <div class="stats">
-        <div class="stat">
-          <div class="number">${player.strPosition || 'N/A'}</div>
-          <div class="label">Posición</div>
-        </div>
-        <div class="stat">
-          <div class="number">${player.dateBorn || 'N/A'}</div>
-          <div class="label">Fecha Nacimiento</div>
-        </div>
-        <div class="stat">
-          <div class="number">${player.strNationality || 'N/A'}</div>
-          <div class="label">Nacionalidad</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
   app.innerHTML = `
     ${createNavbar()}
     <section class="section">
       <h2>Lista de Jugadores</h2>
-      <div class="player-list">
-        ${playersHTML}
+      <div id="loading">Cargando jugadores...</div>
+      <div class="player-list" id="player-list">
+        <!-- Los jugadores se cargarán aquí dinámicamente -->
       </div>
     </section>
   `;
 
   document.getElementById('nav-logout').addEventListener('click', logoutCallback);
+
+  // Cargar jugadores
+  loadPlayers();
+
+  async function loadPlayers() {
+    try {
+      const loading = document.getElementById('loading');
+      const playerList = document.getElementById('player-list');
+
+      loading.style.display = 'block';
+
+      // Obtener jugadores de un equipo popular (ej. Barcelona, ID 529)
+      const response = await fetch('http://localhost:8000/api/players/?team=529&season=2023');
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const playersData = await response.json();
+
+      loading.style.display = 'none';
+
+      const playersHTML = playersData.map(player => `
+        <div class="player-card">
+          <img src="${player.player.photo}" alt="${player.player.name}" class="player-photo">
+          <div class="player-info">
+            <h5><a href="#/players/${player.player.id}">${player.player.name}</a></h5>
+            <p><strong>Posición:</strong> ${player.statistics[0]?.games?.position || 'N/A'}</p>
+            <p><strong>Edad:</strong> ${player.player.age}</p>
+            <p><strong>Nacionalidad:</strong> ${player.player.nationality}</p>
+          </div>
+        </div>
+      `).join('');
+
+      playerList.innerHTML = playersHTML;
+
+    } catch (error) {
+      console.error('Error loading players:', error);
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('player-list').innerHTML = '<p>Error al cargar los jugadores.</p>';
+    }
+  }
 }

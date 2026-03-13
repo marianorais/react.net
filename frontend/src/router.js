@@ -10,6 +10,7 @@ import { showProfile } from './profile/profile.js';
 import { showLogin } from './login/login.js';
 import { showGames } from './games/games.js';
 import { showTeams } from './teams/teams.js';
+import { showTeamDetail } from './teams/teamDetail.js';
 
 const app = document.querySelector('#app');
 
@@ -26,6 +27,7 @@ const routes = {
   '/login': showLogin,
   '/games': showGames,
   '/teams': showTeams,
+  '/teams/:id': showTeamDetail,
 };
 
 function parseRoute(hash) {
